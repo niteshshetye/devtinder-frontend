@@ -1,10 +1,23 @@
-import { useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 import PasswordIcon from "../../assets/PasswordIcon";
 import UserNameIcon from "../../assets/Username";
+
+import { AUTH_URLS } from "../../config/api";
+
+import { addUser } from "../../store/slice/userSlice";
 
 const LoginPage = () => {
   const [emailId, setEmailId] = useState("");
   const [password, setPassword] = useState("");
+
+  const user = useSelector((state) => state.user);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,10 +34,34 @@ const LoginPage = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle login logic here
+
+    const payload = {
+      emailId,
+      password,
+    };
+
+    try {
+      const { data = {} } = await axios.post(AUTH_URLS.LOGIN, payload, {
+        withCredentials: true,
+      });
+
+      const { data: userResponse } = data;
+
+      dispatch(addUser(userResponse));
+
+      navigate("/feed");
+    } catch (error) {
+      console.log(error);
+    }
   };
+
+  useEffect(() => {
+    if (user && user._id) {
+      navigate("/feed");
+    }
+  }, [user, navigate]);
 
   return (
     <div className="flex justify-center items-center h-full">
@@ -42,7 +79,6 @@ const LoginPage = () => {
                 required
                 name="emailId"
                 placeholder="Email ID"
-                pattern="[A-Za-z][A-Za-z0-9\-]*"
                 minlength="3"
                 maxlength="30"
                 value={emailId}
