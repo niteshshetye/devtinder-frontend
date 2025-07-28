@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Outlet, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useCallback, useEffect, useState } from "react";
 
 import { USER_URLS } from "../config/api";
@@ -12,10 +12,17 @@ import Navbar from "../components/Navbar";
 
 const AppLayout = () => {
   const [loading, setLoading] = useState(false);
+
+  const user = useSelector((state) => state.user);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const { isLoggedIn = false } = user || {};
+
   const getUserDetails = useCallback(async () => {
+    if (isLoggedIn) return;
+
     setLoading(true);
     try {
       const { data = {} } = await axios.get(USER_URLS.DETAILS, {
@@ -25,17 +32,20 @@ const AppLayout = () => {
       const { data: userDetails = undefined } = data;
 
       if (userDetails) {
-        dispatch(addUser(userDetails));
+        dispatch(addUser({ ...userDetails, isLoggedIn: true }));
       } else {
         navigate("/login");
       }
     } catch (error) {
-      navigate("/login");
       console.log("Error fetching user details: ", error);
+
+      if (error.status === 401) {
+        navigate("/login");
+      }
     } finally {
       setLoading(false);
     }
-  }, [dispatch, navigate]);
+  }, [dispatch, navigate, isLoggedIn]);
 
   useEffect(() => {
     getUserDetails();

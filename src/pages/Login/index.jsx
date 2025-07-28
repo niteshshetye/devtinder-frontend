@@ -49,7 +49,7 @@ const LoginPage = () => {
 
       const { data: userResponse } = data;
 
-      dispatch(addUser(userResponse));
+      dispatch(addUser({ ...userResponse, isLoggedIn: true }));
 
       navigate("/feed");
     } catch (error) {

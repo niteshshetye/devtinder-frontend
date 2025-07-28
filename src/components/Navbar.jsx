@@ -1,49 +1,78 @@
-import React from "react";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
+import { AUTH_URLS } from "../config/api";
+import { addUser } from "../store/slice/userSlice";
 
 const Navbar = () => {
+  const user = useSelector((state) => state.user);
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { firstName = "", isLoggedIn = false } = user || {};
+
+  const handleProfileClick = () => {
+    navigate("/profile");
+  };
+
+  const handleLogout = async () => {
+    try {
+      await axios.post(AUTH_URLS.LOGOUT, {}, { withCredentials: true });
+
+      // Clear user data from the store
+      dispatch(addUser(null));
+      // Redirect to login page
+      navigate("/login");
+    } catch (error) {
+      console.log("Error during logout: ", error);
+    }
+  };
+
   return (
     <div className="navbar bg-base-300 shadow-sm sticky top-0">
       <div className="flex-1">
-        <a className="btn btn-ghost text-xl">DevTinder</a>
+        <Link to={"/"} className="btn btn-ghost text-xl">
+          DevTinder
+        </Link>
       </div>
-      <div className="flex gap-2">
-        <input
-          type="text"
-          placeholder="Search"
-          className="input input-bordered w-24 md:w-auto"
-        />
-        <div className="dropdown dropdown-end">
-          <div
-            tabIndex={0}
-            role="button"
-            className="btn btn-ghost btn-circle avatar"
-          >
-            <div className="w-10 rounded-full">
-              <img
-                alt="Tailwind CSS Navbar component"
-                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-              />
+      {isLoggedIn && (
+        <div className="flex gap-4 items-center px-4">
+          <p className="text-lg">{`Welcome, ${firstName}`}</p>
+          <div className="dropdown dropdown-end">
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn btn-ghost btn-circle avatar"
+            >
+              <div className="w-10 rounded-full">
+                <img
+                  alt="Tailwind CSS Navbar component"
+                  src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                />
+              </div>
             </div>
-          </div>
-          <ul
-            tabIndex={0}
-            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
-          >
-            <li>
-              <a className="justify-between">
+            <ul
+              tabIndex={0}
+              className="menu menu-sm dropdown-content bg-base-300 rounded-box z-1 mt-3 w-62 p-4 shadow flex flex-col"
+            >
+              <li
+                onClick={handleProfileClick}
+                className="hover:bg-base-200 p-2 cursor-pointer"
+              >
                 Profile
-                <span className="badge">New</span>
-              </a>
-            </li>
-            <li>
-              <a>Settings</a>
-            </li>
-            <li>
-              <a>Logout</a>
-            </li>
-          </ul>
+              </li>
+              <li
+                onClick={handleLogout}
+                className="hover:bg-base-200 p-2 cursor-pointer"
+              >
+                Logout
+              </li>
+            </ul>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
