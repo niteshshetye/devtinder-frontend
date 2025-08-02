@@ -7,6 +7,6 @@ export const AUTH_URLS = {
 
 export const USER_URLS = {
   DETAILS: `${BASE_URL}/profile/view`,
-  UPDATE: `${BASE_URL}/profile/update`,
+  UPDATE: `${BASE_URL}/profile/edit`,
   DELETE: `${BASE_URL}/profile/delete`,
 };

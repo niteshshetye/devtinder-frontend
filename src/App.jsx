@@ -16,9 +16,9 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<AppLayout />}>
+            <Route path="/" element={<FeedPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/profile" element={<ProfilePage />} />
-            <Route path="/feed" element={<FeedPage />} />
             {/* Add more routes as needed */}
             <Route path="*" element={<NotFoundPage />} />
           </Route>

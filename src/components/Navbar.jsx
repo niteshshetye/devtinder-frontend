@@ -11,7 +11,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { firstName = "", isLoggedIn = false } = user || {};
+  const { firstName = "", isLoggedIn = false, photoUrl = "" } = user || {};
 
   const handleProfileClick = () => {
     navigate("/profile");
@@ -47,10 +47,7 @@ const Navbar = () => {
               className="btn btn-ghost btn-circle avatar"
             >
               <div className="w-10 rounded-full">
-                <img
-                  alt="Tailwind CSS Navbar component"
-                  src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-                />
+                <img alt="Tinder User Profile Pic" src={photoUrl} />
               </div>
             </div>
             <ul
