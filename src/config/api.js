@@ -9,4 +9,5 @@ export const USER_URLS = {
   DETAILS: `${BASE_URL}/profile/view`,
   UPDATE: `${BASE_URL}/profile/edit`,
   DELETE: `${BASE_URL}/profile/delete`,
+  CONNECTIONS: `${BASE_URL}/user/feed/request/connection`,
 };

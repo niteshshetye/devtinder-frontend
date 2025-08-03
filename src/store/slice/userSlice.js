@@ -5,7 +5,7 @@ export const userSlice = createSlice({
   initialState: null,
   reducers: {
     addUser: (_, action) => {
-      return action.payload;
+      return { ...action.payload, isLoggedIn: true };
     },
     removeUser: (state) => {
       state = null;

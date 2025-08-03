@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import { AUTH_URLS } from "../config/api";
+
 import { addUser } from "../store/slice/userSlice";
 
 const Navbar = () => {
@@ -13,8 +14,8 @@ const Navbar = () => {
 
   const { firstName = "", isLoggedIn = false, photoUrl = "" } = user || {};
 
-  const handleProfileClick = () => {
-    navigate("/profile");
+  const handleNavigation = (path) => {
+    navigate(path);
   };
 
   const handleLogout = async () => {
@@ -55,10 +56,22 @@ const Navbar = () => {
               className="menu menu-sm dropdown-content bg-base-300 rounded-box z-1 mt-3 w-62 p-4 shadow flex flex-col"
             >
               <li
-                onClick={handleProfileClick}
+                onClick={() => handleNavigation("/profile")}
                 className="hover:bg-base-200 p-2 cursor-pointer"
               >
                 Profile
+              </li>
+              <li
+                onClick={() => handleNavigation("/connections")}
+                className="hover:bg-base-200 p-2 cursor-pointer"
+              >
+                Connections
+              </li>
+              <li
+                onClick={() => handleNavigation("/requests")}
+                className="hover:bg-base-200 p-2 cursor-pointer"
+              >
+                Requests
               </li>
               <li
                 onClick={handleLogout}
