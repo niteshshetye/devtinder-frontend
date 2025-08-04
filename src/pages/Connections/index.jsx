@@ -32,13 +32,16 @@ const Connections = () => {
   return (
     <div className="flex justify-center flex-col items-center">
       <h1 className="text-bold text-2xl">My Connections</h1>
-      <div className="w-full max-w-4xl mt-4">
+      <div className="w-full max-w-4xl mt-4 flex flex-col gap-4">
         {connections.map((connection) => (
-          <div className="card card-side bg-base-300 shadow-sm">
-            <figure className="w-28 h-[133px]">
+          <div
+            key={connection._id}
+            className="card card-side bg-base-300 shadow-sm"
+          >
+            <figure className="w-40 h-40">
               <img
                 src={connection.photoUrl}
-                className="w-full h-full object-cover"
+                className="w-30 h-30 object-cover rounded-[50%]"
                 alt="Connection User Profile picture"
               />
             </figure>

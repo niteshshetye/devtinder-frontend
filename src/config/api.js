@@ -10,4 +10,9 @@ export const USER_URLS = {
   UPDATE: `${BASE_URL}/profile/edit`,
   DELETE: `${BASE_URL}/profile/delete`,
   CONNECTIONS: `${BASE_URL}/user/feed/request/connection`,
+  REQUESTS: `${BASE_URL}/user/feed/request/received`,
+};
+
+export const REQUESTS_URLS = {
+  REVIEW_REQUEST: `${BASE_URL}/request/review`,
 };
