@@ -1,6 +1,11 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
+import NoDataFound from "../../components/NoDataFound";
+import RefreshRequests from "../../components/RefreshRequests";
+import ConnectionList from "../../components/connections/ConnectionList";
+import ConnectionHeader from "../../components/connections/ConnectionHeader";
+
 import { USER_URLS } from "../../config/api";
 
 const Connections = () => {
@@ -22,42 +27,17 @@ const Connections = () => {
   }, []);
 
   if (!connections.length) {
-    return (
-      <div className="flex justify-center">
-        <h1 className="text-bold text-2xl">No Connections Found</h1>
-      </div>
-    );
+    return <NoDataFound message="No Connections Found" />;
   }
 
   return (
     <div className="flex justify-center flex-col items-center">
-      <h1 className="text-bold text-2xl">My Connections</h1>
-      <div className="w-full max-w-4xl mt-4 flex flex-col gap-4">
-        {connections.map((connection) => (
-          <div
-            key={connection._id}
-            className="card card-side bg-base-300 shadow-sm"
-          >
-            <figure className="w-40 h-40">
-              <img
-                src={connection.photoUrl}
-                className="w-30 h-30 object-cover rounded-[50%]"
-                alt="Connection User Profile picture"
-              />
-            </figure>
-            <div className="card-body">
-              <h2 className="card-title">{`${connection.firstName} ${connection.lastName}`}</h2>
-              <p>{`${connection.age}, ${connection.gender}`}</p>
-              <p>{connection.bio}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-      <div className="mt-4">
-        <button onClick={fetchConnections} className="btn btn-primary">
-          Refresh Connections
-        </button>
-      </div>
+      <ConnectionHeader />
+      <ConnectionList connections={connections} />
+      <RefreshRequests
+        title="Refresh Connections"
+        fetchData={fetchConnections}
+      />
     </div>
   );
 };
