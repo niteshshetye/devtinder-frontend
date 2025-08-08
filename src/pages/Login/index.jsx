@@ -51,7 +51,7 @@ const LoginPage = () => {
 
       dispatch(addUser({ ...userResponse, isLoggedIn: true }));
 
-      navigate("/feed");
+      navigate("/");
     } catch (error) {
       console.log(error);
     }
@@ -59,7 +59,7 @@ const LoginPage = () => {
 
   useEffect(() => {
     if (user && user._id) {
-      navigate("/feed");
+      navigate("/");
     }
   }, [user, navigate]);
 
