@@ -70,7 +70,7 @@ const LoginPage = () => {
           onSubmit={handleSubmit}
           className="card-body flex flex-col items-center gap-5"
         >
-          <h2 className="card-title">Login To Devtinder</h2>
+          <h2 className="card-title">Login To WeTinder</h2>
           <div className="flex flex-col items-center gap-4 w-full">
             <label className="input validator">
               <UserNameIcon />
